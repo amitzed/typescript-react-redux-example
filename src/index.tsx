@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 
 interface AppProps {
@@ -21,6 +21,7 @@ class App extends Component<AppProps> {
   render() {
     return (
       <div>
+        <h2>Class-Based Component</h2>
         {/* <h1>{this.props.color}</h1> */}
         <button onClick={this.onIncrement}>Increment</button>
         <button onClick={this.onDecrement}>Decrement</button>
@@ -28,9 +29,22 @@ class App extends Component<AppProps> {
       </div>
     )
   }
-}
+};
+
+const FuncApp = (props: AppProps): JSX.Element => {
+  return (
+    <div>
+      <hr />
+      <h2>Functional Component</h2>
+      <h2>{props.color}</h2>
+    </div>
+  )
+};
 
 ReactDOM.render(
-  <App color="red" />,
+  <Fragment>
+    <App color="red" />
+    <FuncApp color="blue" />
+  </Fragment>,
   document.getElementById('root')
 )
