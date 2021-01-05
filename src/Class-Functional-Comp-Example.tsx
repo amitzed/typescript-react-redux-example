@@ -1,3 +1,5 @@
+/* ==== This example is meant to be used in index.tsx file ==== */
+
 import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -5,6 +7,7 @@ interface AppProps {
   color?: string; // Question mark in key indicates that the color prop in <App /> is optional and not required;
 }
 
+// Class-Based Component
 class App extends Component<AppProps> {
   state = {
     counter: 0
@@ -31,8 +34,21 @@ class App extends Component<AppProps> {
   }
 };
 
+// Functional Component
+const FuncApp = (props: AppProps): JSX.Element => {
+  return (
+    <div>
+      <hr />
+      <h2>Functional Component</h2>
+      <h2>{props.color}</h2>
+    </div>
+  )
+};
 
 ReactDOM.render(
-  <App color="red" />,
+  <Fragment>
+    <App color="red" />
+    <FuncApp color="blue" />
+  </Fragment>,
   document.getElementById('root')
 )
