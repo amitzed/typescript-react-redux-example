@@ -1,3 +1,9 @@
+# TypeScript-React-Redux example.
+
+## Click button to fetch data from an API and on click, delete that particular piece of data from the list.
+
+<hr />
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

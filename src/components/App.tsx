@@ -1,23 +1,51 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Todo, fetchTodos }  from '../actions';
+import { Todo, fetchTodos, deleteTodo }  from '../actions';
 import { StoreState } from '../reducers';
 
 interface AppProps {
   todos: Todo[];
-  fetchTodos(): any;
+  fetchTodos: Function;
+  deleteTodo: typeof deleteTodo;
 }
 
-class _App extends React.Component<AppProps> {
+interface AppState {
+  fetching: boolean;
+}
+
+class _App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+
+    this.state = { fetching: false };
+  }
+
+  componentDidUpdate(prevProps: AppProps): void {
+    if(!prevProps.todos.length && this.props.todos.length) {
+      this.setState({ fetching: false });
+    }
+  }
+
   onButtonClick = (): void => {
     this.props.fetchTodos();
+    this.setState({
+      fetching: true
+    })
+  };
+
+  onTodoClick = (id: number): void => {
+    this.props.deleteTodo(id);
   };
 
   renderList(): JSX.Element[] {
     return this.props.todos.map((todo: Todo) => {
       return (
-        <div key={todo.id}>
+        <div
+          onClick={() => this.onTodoClick(todo.id)}
+          key={todo.id}
+          style={{cursor: 'pointer'}}
+        >
           {todo.title}
         </div>
       )
@@ -28,6 +56,13 @@ class _App extends React.Component<AppProps> {
     return (
       <div>
         <button onClick={this.onButtonClick}>Fetch</button>
+        {
+          this.state.fetching
+          ?
+          <h3>Loading...</h3>
+          :
+          null
+        }
         {this.renderList()}
       </div>
     )
@@ -40,5 +75,5 @@ const mapStateToProps = ({todos}: StoreState): { todos: Todo[]} => {
 
 export const App = connect(
   mapStateToProps,
-  { fetchTodos }
+  { fetchTodos, deleteTodo }
 )(_App);
